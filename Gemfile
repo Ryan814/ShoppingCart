@@ -35,6 +35,8 @@ gem 'jbuilder', '~> 2.5'
 
 # Use devise to create user model
 gem 'devise'
+# Use ffaker to create fake data
+gem 'ffaker'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
