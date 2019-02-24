@@ -1,7 +1,7 @@
 namespace :dev do
   task fake_product: :environment do
 
-    Pfoduct.destroy_all
+    Product.destroy_all
 
     1000.times do
       Product.create!(
