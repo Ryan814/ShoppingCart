@@ -1,0 +1,11 @@
+<% @products.each do |p| %>
+  <div class="product-box">
+    <%= link_to product_path(p) do%>
+      <%= image_tag(p.image, width: 100 ) %><br>
+      <%= p.name %>
+    <% end %>
+    $<%= p.price %>
+  </div>
+<% end %>
+
+<%= paginate @products %>
