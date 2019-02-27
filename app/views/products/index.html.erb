@@ -1,11 +1,14 @@
-<% @products.each do |p| %>
-  <div class="product-box">
-    <%= link_to product_path(p) do%>
-      <%= image_tag p.image %><br>
-      <%= p.name %>
-    <% end %>
-    $<%= p.price %>
-  </div>
-<% end %>
+<section id="product-list">
+  <% @products.each do |p| %>
+    <div class="product-box">
+      <%= link_to product_path(p) do%>
+        <%= image_tag p.image %><br>
+        <%= p.name %>
+      <% end %>
+      $<%= p.price %>
+      <%= button_to 'Add to Cart', add_to_cart_product_path(p) %>
+    </div>
+  <% end %>
+</section>
 
 <%= paginate @products %>
