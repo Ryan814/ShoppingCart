@@ -18,4 +18,8 @@ class Cart < ApplicationRecord
     cart_items.map{ |x| x.item_total }.sum
   end
 
+  def find_item_by(product)
+    self.cart_items.where(product_id: product).first
+  end
+
 end

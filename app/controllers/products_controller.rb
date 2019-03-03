@@ -14,4 +14,13 @@ class ProductsController < ApplicationController
     # 回到上一頁，若無法回上一頁則回到首頁(rails5)
     redirect_back(fallback_location: root_path)
   end
+
+  def remove_from_cart
+    product = Product.find(params[:id])
+    cart_item = current_cart.cart_items.find_by(product_id: product)
+    cart_item.destroy
+
+    redirect_back(fallback_location: root_path)
+  end
+
 end
