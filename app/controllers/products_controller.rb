@@ -12,7 +12,7 @@ class ProductsController < ApplicationController
     current_cart.add_cart_item(@product)
 
     # 回到上一頁，若無法回上一頁則回到首頁(rails5)
-    redirect_back(fallback_location: root_path)
+    # redirect_back(fallback_location: root_path)
   end
 
   def remove_from_cart

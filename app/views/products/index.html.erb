@@ -2,13 +2,13 @@
 
 <section id="product-list">
   <% @products.each do |p| %>
-    <div class="product-box">
+    <div class="product-box product_<%= p.id %>">
       <%= link_to product_path(p) do%>
         <%= image_tag p.image %><br>
         <%= p.name %>
       <% end %>
       $<%= p.price %>
-      <%= button_to 'Add to Cart', add_to_cart_product_path(p) %>
+      <%= button_to 'Add to Cart', add_to_cart_product_path(p), remote: true %>
     </div>
   <% end %>
 </section>
