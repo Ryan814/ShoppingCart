@@ -5,16 +5,24 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = current_user.orders.new(order_params)
-    @order.sn = Time.now.to_i
-    @order.add_order_items(current_cart)
-    @order.amount = current_cart.subtotal
-    if @order.save
-      current_cart.destroy
-      redirect_to orders_path, notice: "new order created"
+    # manually check if user logged in
+    if current_user.nil?
+      # sotre order data in session so we cna retrieve it lager
+      session[:new_oreder_data] = params[:order]
+      #  redirect to devise login page
+      redirect_to new_user_session_path
     else
-      @items = current_cart.cart_items
-      render "carts/show"
+      @order = current_user.orders.new(order_params)
+      @order.sn = Time.now.to_i
+      @order.add_order_items(current_cart)
+      @order.amount = current_cart.subtotal
+      if @order.save
+        current_cart.destroy
+        redirect_to orders_path, notice: "new order created"
+      else
+        @items = current_cart.cart_items
+        render "carts/show"
+      end
     end
   end
 
