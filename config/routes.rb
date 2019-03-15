@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   end
 
   resource :cart
-  resource :orders
+  resources :orders
 
   namespace :admin do
     root "products#index"
