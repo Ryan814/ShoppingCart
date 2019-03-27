@@ -137,7 +137,7 @@ td, th {
 .form-group label {
   display: inline-block;
   width: 80px;
-  text-align: right:
+  text-align: right;
 }
 
 .form-group input["text"] {
