@@ -54,7 +54,8 @@ class OrdersController < ApplicationController
           Amt: @order.amount,
           ItemDesc: @order.name,
           Email: @order.user.email,
-          LoginType: 0
+          LoginType: 0,
+          ReturnURL: spgateway_return_url
         }.to_query
 
         hash_key = "CpQYshVvq9eqcUNNoR1lJlkfib8RqiOu"

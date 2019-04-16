@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     post :checkout_spgateway, on: :member
   end
 
+  post 'spgateway/return'
+
   namespace :admin do
     root "products#index"
     resources :products
