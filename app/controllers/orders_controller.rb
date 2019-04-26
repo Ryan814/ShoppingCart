@@ -60,23 +60,23 @@ class OrdersController < ApplicationController
 
         spgateway_data = Spgateway.new(@payment).generate_form_data(spgateway_return_url)
 
-        hash_key = "CpQYshVvq9eqcUNNoR1lJlkfib8RqiOu"
-        hash_iv = "IXTW5Pyygkpl52s8"
+        # hash_key = "CpQYshVvq9eqcUNNoR1lJlkfib8RqiOu"
+        # hash_iv = "IXTW5Pyygkpl52s8"
 
-        cipher = OpenSSL::Cipher::AES256.new(:CBC)
-        cipher.encrypt
-        cipher.key = hash_key
-        cipher.iv  = hash_iv
-        encrypted = cipher.update(spgateway_data) + cipher.final
-        aes = encrypted.unpack('H*').first
+        # cipher = OpenSSL::Cipher::AES256.new(:CBC)
+        # cipher.encrypt
+        # cipher.key = hash_key
+        # cipher.iv  = hash_iv
+        # encrypted = cipher.update(spgateway_data) + cipher.final
+        # aes = encrypted.unpack('H*').first
 
-        str = "HashKey=#{hash_key}&#{aes}&HashIV=#{hash_iv}"
-        sha = Digest::SHA256.hexdigest(str).upcase
+        # str = "HashKey=#{hash_key}&#{aes}&HashIV=#{hash_iv}"
+        # sha = Digest::SHA256.hexdigest(str).upcase
 
-        @merchant_id = "MS36020511"
-        @trade_info = aes
-        @trade_sha = sha
-        @version = "1.4"
+        # @merchant_id = "MS36020511"
+        # @trade_info = aes
+        # @trade_sha = sha
+        # @version = "1.4"
 
         render layout: false
       end
