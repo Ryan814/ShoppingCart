@@ -45,18 +45,20 @@ class OrdersController < ApplicationController
           order_id: @order.id,
           amount: @order.amount
         )
-        spgateway_data = {
-          MerchantID: "MS36020511",
-          Version: 1.4,
-          RespondType: "JSON",
-          TimeStamp: Time.now.to_i,
-          MerchantOrderNo: "#{@payment.id}AC",
-          Amt: @order.amount,
-          ItemDesc: @order.name,
-          Email: @order.user.email,
-          LoginType: 0,
-          ReturnURL: spgateway_return_url
-        }.to_query
+        # spgateway_data = {
+        #   MerchantID: "MS36020511",
+        #   Version: 1.4,
+        #   RespondType: "JSON",
+        #   TimeStamp: Time.now.to_i,
+        #   MerchantOrderNo: "#{@payment.id}AC",
+        #   Amt: @order.amount,
+        #   ItemDesc: @order.name,
+        #   Email: @order.user.email,
+        #   LoginType: 0,
+        #   ReturnURL: spgateway_return_url
+        # }.to_query
+
+        spgateway_data = Spgateway.new(@payment).generate_form_data(spgateway_return_url)
 
         hash_key = "CpQYshVvq9eqcUNNoR1lJlkfib8RqiOu"
         hash_iv = "IXTW5Pyygkpl52s8"

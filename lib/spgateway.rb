@@ -12,4 +12,21 @@ class Spgateway
     self.url = "https://ccore.spgateway.com/MPG/mpg_gateway"
   end
 
+  def generate_form_data(return_url)
+    spgateway_data = {
+      MerchantID: "MS36020511",
+      Version: 1.4,
+      RespondType: "JSON",
+      TimeStamp: @payment.created_at.to_i,
+      MerchantOrderNo: "#{@payment.id}AC",
+      Amt: @payment.amount,
+      ItemDesc: @payment.order.name,
+      Email: @payment.order.user.email,
+      LoginType: 0,
+      ReturnURL: return_url
+    }
+
+    spgateway_data.to_query
+  end
+
 end
