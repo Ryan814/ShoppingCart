@@ -58,7 +58,8 @@ class OrdersController < ApplicationController
         #   ReturnURL: spgateway_return_url
         # }.to_query
 
-        spgateway_data = Spgateway.new(@payment).generate_form_data(spgateway_return_url)
+        # spgateway_data = 
+        # Spgateway.new(@payment).generate_form_data(spgateway_return_url)
 
         # hash_key = "CpQYshVvq9eqcUNNoR1lJlkfib8RqiOu"
         # hash_iv = "IXTW5Pyygkpl52s8"
@@ -78,10 +79,10 @@ class OrdersController < ApplicationController
         # @trade_sha = sha
         # @version = "1.4"
 
-        @merchant_id = spgateway_data[:MerchantID]
-        @trade_info = spgateway_data[:TradeInfo]
-        @trade_sha = spgateway_data[:TradeSha]
-        @version = spgateway_data[:Version]
+        # @merchant_id = spgateway_data[:MerchantID]
+        # @trade_info = spgateway_data[:TradeInfo]
+        # @trade_sha = spgateway_data[:TradeSha]
+        # @version = spgateway_data[:Version]
 
         render layout: false
       end
