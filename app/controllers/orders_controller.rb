@@ -78,6 +78,11 @@ class OrdersController < ApplicationController
         # @trade_sha = sha
         # @version = "1.4"
 
+        @merchant_id = spgateway_data[:MerchantID]
+        @trade_info = spgateway_data[:TradeInfo]
+        @trade_sha = spgateway_data[:TradeSha]
+        @version = spgateway_data[:Version]
+
         render layout: false
       end
     end
