@@ -1,31 +1,33 @@
 class SpgatewayController < ActionController::Base
   def return
     #比對回傳的 SHA 和自行加密的 SHA 是否一樣 
-    hash_key = "CpQYshVvq9eqcUNNoR1lJlkfib8RqiOu"
-    hash_iv = "IXTW5Pyygkpl52s8"
+    # hash_key = "CpQYshVvq9eqcUNNoR1lJlkfib8RqiOu"
+    # hash_iv = "IXTW5Pyygkpl52s8"
     trade_info = spagatway_params['TradeInfo']
     trade_sha = spagatway_params["TradeSha"]
 
-    str = "HashKey=#{hash_key}&#{trade_info}&HashIV=#{hash_iv}"
-    check_sha = Digest::SHA256.hexdigest(str).upcase
+    # str = "HashKey=#{hash_key}&#{trade_info}&HashIV=#{hash_iv}"
+    # check_sha = Digest::SHA256.hexdigest(str).upcase
 
-    #若 SHA 通過認證，將智富通回傳的 TradeInfo 解密，取得參數內容
-    if check_sha == trade_sha
-      decipher = OpenSSL::Cipher::AES256.new(:CBC)
-      decipher.decrypt
-      decipher.padding = 0
-      decipher.key = hash_key
-      decipher.iv = hash_iv
+    # #若 SHA 通過認證，將智富通回傳的 TradeInfo 解密，取得參數內容
+    # if check_sha == trade_sha
+    #   decipher = OpenSSL::Cipher::AES256.new(:CBC)
+    #   decipher.decrypt
+    #   decipher.padding = 0
+    #   decipher.key = hash_key
+    #   decipher.iv = hash_iv
 
-      binary_encrypted = [trade_info].pack('H*') # hex to binary
-      plain = decipher.update(binary_encrypted) + decipher.final
+    #   binary_encrypted = [trade_info].pack('H*') # hex to binary
+    #   plain = decipher.update(binary_encrypted) + decipher.final
 
-      # strip last padding
-      if plain[-1] != '}'
-        plain = plain[0, plain.index(plain[-1])]
-      end
-      data = JSON.parse(plain)
-    end
+    #   # strip last padding
+    #   if plain[-1] != '}'
+    #     plain = plain[0, plain.index(plain[-1])]
+    #   end
+    #   data = JSON.parse(plain)
+    # end
+
+    data = Spgateway.decrypt(trade_info, trade_sha)
 
     # 根據參數的 MerchantOrderNo，查出 payment 實例
     # 更新相關的 payment 與 order 屬性
