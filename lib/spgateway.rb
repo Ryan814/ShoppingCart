@@ -25,9 +25,21 @@ class Spgateway
       Amt: @payment.amount,
       ItemDesc: @payment.order.name,
       Email: @payment.order.user.email,
+      ReturnURL: return_url,
       LoginType: 0,
-      ReturnURL: return_url
+      CREDIT: 0,
+      WEBATM: 0,
+      VACC: 0
     }
+
+    case @payment.payment_method
+      when "Credit"
+        spgateway_data.merge!( :CREDIT => 1 )
+      when "WebATM"
+        spgateway_data.merge!( :WEBATM => 1 )
+      when "ATM"
+        spgateway_data.merge!( :VACC => 1, :ExpireData => @payment.deadline.strftime("%Y%m%d"))
+    end
 
     trade_info = self.encrypt(spgateway_data)
     trade_sha = self.class.generate_aes_sha256(trade_info)
