@@ -3,8 +3,8 @@ class SpgatewayController < ActionController::Base
     #比對回傳的 SHA 和自行加密的 SHA 是否一樣 
     # hash_key = "CpQYshVvq9eqcUNNoR1lJlkfib8RqiOu"
     # hash_iv = "IXTW5Pyygkpl52s8"
-    trade_info = spagatway_params['TradeInfo']
-    trade_sha = spagatway_params["TradeSha"]
+    # trade_info = spagatway_params['TradeInfo']
+    # trade_sha = spagatway_params["TradeSha"]
 
     # str = "HashKey=#{hash_key}&#{trade_info}&HashIV=#{hash_iv}"
     # check_sha = Digest::SHA256.hexdigest(str).upcase
@@ -27,21 +27,22 @@ class SpgatewayController < ActionController::Base
     #   data = JSON.parse(plain)
     # end
 
-    data = Spgateway.decrypt(trade_info, trade_sha)
+    # data = Spgateway.decrypt(trade_info, trade_sha)
 
     # 根據參數的 MerchantOrderNo，查出 payment 實例
     # 更新相關的 payment 與 order 屬性
-    if data
-      payment = Payment.find(data['Result']['MerchantOrderNo'].to_i)
-      if params['Status'] == 'SUCCESS'
-        payment.paid_at = Time.now
-      end
-      payment.params = data
-    end
+    # if data
+    #   payment = Payment.find(data['Result']['MerchantOrderNo'].to_i)
+    #   if params['Status'] == 'SUCCESS'
+    #     payment.paid_at = Time.now
+    #   end
+    #   payment.params = data
+    # end
+    payment = Payment.find_and_process(spagatway_params)
 
     if payment&.save
-      order = payment.order
-      order.update(payment_status: "paid")
+      # order = payment.order
+      # order.update(payment_status: "paid")
       # send paid email
       flash[:notice] = "#{payment.sn} paid"
     else
@@ -50,6 +51,16 @@ class SpgatewayController < ActionController::Base
 
     # 動作完成，導回訂單索引頁
     redirect_to orders_path
+  end
+
+  def notify
+    payment = Payment.find_and_process(spagatway_params)
+
+    if payment&.save
+      render text: "1|OK"
+    else
+      render text: "0|ErrorMessage"
+    end
   end
 
   private
